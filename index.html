@@ -99,6 +99,53 @@
   ul.checks { margin: 0; padding-left: 18px; } ul.checks li { margin: 6px 0; }
   .insight { border-left: 3px solid var(--accent); padding: 4px 0 4px 14px; }
   .insight p { color: var(--text); }
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .toc a { font-size: 13.5px; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 1px; margin-right: 10px; }
+  .case { display: flex; flex-direction: column; gap: 10px; }
+  .case.wide { grid-column: 1 / -1; }
+  .case-no { font: 500 11.5px/1.3 "Geist Mono", monospace; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); margin: 0; }
+  .case h3 { font-size: 16.5px; margin: 0; }
+  dl.qa { display: grid; grid-template-columns: 74px 1fr; gap: 6px 10px; margin: 0; font-size: 14px; }
+  dl.qa dt { color: var(--muted); font-size: 12.5px; padding-top: 2px; }
+  dl.qa dd { margin: 0; }
+  @media (max-width: 420px) { dl.qa { grid-template-columns: 1fr; gap: 2px; } dl.qa dd { margin-bottom: 6px; } }
+  .mini-chart { position: relative; height: 190px; margin-top: auto; }
+  .ci-chart { margin-top: auto; }
+  .ci-chart svg { width: 100%; height: auto; display: block; }
+  .ci-chart text { fill: var(--text); font-family: "Geist", system-ui, sans-serif; }
+  .ci-chart .muted { fill: var(--muted); }
+  table.mini-table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin-top: auto; }
+  table.mini-table th, table.mini-table td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+  table.mini-table th { color: var(--muted); font-weight: 500; }
+  table.mini-table td:last-child { font-family: "Geist Mono", monospace; }
+  .calc { background: var(--code-bg); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 10px; font-size: 14px; }
+  .calc label { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .calc input, .calc select { font: inherit; width: 100px; flex: none; padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--card); color: var(--text); }
+  .calc-out { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border-top: 1px solid var(--line); padding-top: 10px; }
+  .calc-out div { display: flex; flex-direction: column; }
+  .calc .big { font-size: 26px; font-weight: 600; letter-spacing: -.02em; }
+  .muted { color: var(--muted); } .small { font-size: 12.5px; margin: 0; }
+  .phases { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  @media (max-width: 760px) { .phases { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .phase { border: 1px solid var(--line); background: var(--card); border-radius: 10px; padding: 10px 12px; font-size: 13.5px; }
+  .phase b { display: block; font-size: 14px; }
+  .phase .when { font: 12px "Geist Mono", monospace; color: var(--muted); }
+  .phase.done { border-color: var(--accent); }
+  .score-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; align-items: center; margin-bottom: 10px; }
+  .score-scroll { overflow-x: auto; }
+  table.score { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 640px; }
+  table.score th { text-align: left; font-weight: 500; color: var(--muted); font-size: 12.5px; padding: 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  table.score td { padding: 9px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  table.score td.num { font-family: "Geist Mono", monospace; font-size: 13px; white-space: nowrap; }
+  table.score tr.grp td { font: 500 11.5px "Geist Mono", monospace; text-transform: uppercase; letter-spacing: .04em; color: var(--accent); padding-top: 14px; border-bottom: 0; }
+  table.score .why { display: block; color: var(--muted); font-size: 12.5px; }
+  .prog { background: var(--code-bg); height: 8px; border-radius: 4px; width: 120px; overflow: hidden; }
+  .prog i { display: block; height: 100%; background: var(--accent); border-radius: 4px; }
+  .chip { display: inline-block; font-size: 11.5px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); white-space: nowrap; }
+  .chip.hit { background: color-mix(in srgb, var(--green) 18%, transparent); border-color: var(--green); }
+  .chip.on-track { background: color-mix(in srgb, var(--blue) 15%, transparent); border-color: var(--blue); }
+  .chip.moving { background: var(--accent-soft); border-color: var(--accent); }
+  .chip.flat { color: var(--muted); }
   footer { padding: 34px 0 56px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
   footer a { color: var(--text); }
   .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 13px; color: var(--muted); margin-top: 10px; }
@@ -111,14 +158,15 @@
   <header class="hero">
     <p class="eyebrow">Case study · Product analytics</p>
     <h1>KPI dashboard and data pipeline for a mobile app</h1>
-    <p class="lede">I built a reporting system for my language-learning app oqou. Every morning it pulls data from four sources, cleans it, loads it into a SQL database and updates a dashboard. I use it to track growth, find where users drop off and decide what to work on next.</p>
+    <p class="lede">I built a reporting system for my language-learning app oqou. Every morning it pulls data from four sources, cleans it, loads it into a SQL database and updates a dashboard. I use it to track growth, find where users drop off, test ideas and decide what to work on next.</p>
     <div class="meta">
-      <span class="tag">SQL (SQLite)</span><span class="tag">ETL / daily data pipeline</span><span class="tag">KPI definitions</span>
-      <span class="tag">Funnel &amp; cohort analysis</span><span class="tag">Data quality checks</span><span class="tag">Dashboarding</span>
+      <span class="tag">SQL (SQLite)</span><span class="tag">ETL / daily data pipeline</span><span class="tag">KPI definitions &amp; targets</span>
+      <span class="tag">Funnel &amp; cohort analysis</span><span class="tag">Segmentation</span><span class="tag">A/B test design</span><span class="tag">Hypothesis testing</span><span class="tag">Data quality checks</span><span class="tag">Dashboarding</span>
       <span class="tag">Google Analytics 4 API</span><span class="tag">RevenueCat API</span><span class="tag">App Store Connect</span><span class="tag">Node.js · React</span>
     </div>
     <div class="demo-note"><span aria-hidden="true">ⓘ</span><span><b>Demo data.</b> All numbers on this page are made up. The app's real figures stay private. The page structure, metric definitions and checks match the real dashboard I use every day.</span></div>
-    <p class="byline">Cuma Ali Kesici · M.Sc. Data Science student, Philipps-Universität Marburg · <a href="https://linkedin.com/in/cuma-ali-kesici-86161286/">LinkedIn</a></p>
+    <p class="byline">Cuma Ali Kesici · M.Sc. Data Science student, Philipps-Universität Marburg · <a href="https://linkedin.com/in/cuma-ali-kesici-86161286/">LinkedIn</a> · <a href="https://apps.apple.com/app/oqou/id6777945652?ct=portfolio">oqou on the App Store</a> · <a href="https://oqou.app">oqou.app</a></p>
+    <nav class="toc" aria-label="On this page"><a href="#dashboard">Dashboard</a><a href="#scoreboard">KPI scoreboard</a><a href="#analyses">9 analyses</a><a href="#quality">Data quality</a><a href="#sql">Metrics &amp; SQL</a></nav>
   </header>
 
   <!-- 1. Problem -->
@@ -178,7 +226,7 @@
   </section>
 
   <!-- 3. Dashboard -->
-  <section>
+  <section id="dashboard">
     <h2>The dashboard</h2>
     <p class="sub">The headline KPIs, each compared with the previous period. A rate always shows its numerator and denominator, so "100%" can never hide "1 of 1". Dates are synthetic.</p>
     <div class="toolbar">
@@ -193,6 +241,42 @@
       <h3>Daily downloads and active users</h3>
       <p style="margin-bottom:12px">The last two days are dashed: they are provisional and can still change. Orange dots mark days with a social media post.</p>
       <div class="chart-box"><canvas id="trend"></canvas></div>
+    </div>
+  </section>
+
+  <!-- 3b. Scoreboard -->
+  <section id="scoreboard">
+    <h2>KPI scoreboard: tracking an improvement plan</h2>
+    <p class="sub">Before changing anything in the app, I measured a baseline and set a target for each KPI. The plan ran in phases, and each KPI belongs to the phase meant to move it. The scoreboard shows, every day, how far each KPI has moved from baseline toward its target.</p>
+    <div class="phases" id="phases"></div>
+    <div class="card" style="margin-top:14px">
+      <div class="score-head">
+        <h3>Scoreboard</h3>
+        <div class="legend" style="margin:0">
+          <span><span class="chip hit">Hit</span> target reached</span>
+          <span><span class="chip on-track">On track</span> 50%+ of the way</span>
+          <span><span class="chip moving">Moving</span> some progress</span>
+          <span><span class="chip flat">Flat</span> no real change</span>
+        </div>
+      </div>
+      <div class="score-scroll"><table class="score" id="score"></table></div>
+      <p class="muted small" style="margin-top:12px">Progress = (current − baseline) / (target − baseline), with the direction taken into account, so "fewer errors" and "more readers" score the same way. A KPI that could not be measured at baseline shows a dash there instead of a zero.</p>
+    </div>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="card">
+        <h3>One KPI over time: day-1 return rate</h3>
+        <p style="margin-bottom:12px">Weekly value against baseline and target. The dotted lines mark when each phase shipped.</p>
+        <div class="chart-box" style="height:240px"><canvas id="kpiHist"></canvas></div>
+      </div>
+      <div class="card">
+        <h3>How the KPIs were chosen</h3>
+        <ul class="checks">
+          <li><b>One KPI tree, not a list:</b> stability and first-session reading feed day-1 return, which feeds trial starts and payment. A KPI lower in the tree is not judged until the ones above it move.</li>
+          <li><b>Leading before lagging:</b> "subscribers who reopen the app" was added because payments lag by weeks. It shows early whether a change is working.</li>
+          <li><b>Every KPI has an owner phase:</b> a paywall change is judged on paywall-to-trial, not on retention, so one change cannot take credit for another.</li>
+          <li><b>Snapshots, not just "now":</b> each run is saved with its date, so the plan has a before-and-after record instead of a dashboard that only shows today.</li>
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -214,8 +298,139 @@
     </div>
   </section>
 
+  <!-- 7. Analyses -->
+  <section id="analyses">
+    <h2>Analyses and insights</h2>
+    <p class="sub">Nine questions I answered with this data: what I asked, how I tested it, what came out and what I changed. The findings are real; every number and chart uses demo data.</p>
+    <div class="grid g2 cases">
+
+      <article class="card case">
+        <p class="case-no">01 · Cohort analysis · Segment comparison</p>
+        <h3>Retention, not the paywall, limited sales</h3>
+        <dl class="qa">
+          <dt>Question</dt><dd>Few trials turned into paid subscriptions. Was the paywall the problem?</dd>
+          <dt>Method</dt><dd>Split new users into those who came back on a later day and those who used the app on one day only, then compared trial starts and payments between the two groups.</dd>
+          <dt>Finding</dt><dd>The first session worked well, but most users never came back after day 1. Users who returned started trials several times more often, and almost every paying user was a returner. A paywall change moves how many trials start; retention moves how many people buy.</dd>
+          <dt>Action</dt><dd>The roadmap moved from paywall design to day-2 retention. The retention cohorts track whether it works.</dd>
+        </dl>
+        <div class="mini-chart"><canvas id="c1"></canvas></div>
+      </article>
+
+      <article class="card case">
+        <p class="case-no">02 · Hypothesis testing · Funnel</p>
+        <h3>Notifications were not the bottleneck, the reminder rules were</h3>
+        <dl class="qa">
+          <dt>Question</dt><dd>Do users not come back because they refuse notifications?</dd>
+          <dt>Method</dt><dd>Followed the path from permission to reminder: who granted permission, who qualified for any reminder, who opened one. Then checked the rules that decide who gets a reminder.</dd>
+          <dt>Finding</dt><dd>Hypothesis rejected: most users granted permission. But the reminder rules only covered users who had saved a word, and most users never save one, so the majority never received a reminder at all.</dd>
+          <dt>Action</dt><dd>A day-2 reminder for every new user, instead of moving the permission prompt, which would have fixed the wrong thing.</dd>
+        </dl>
+        <div class="mini-chart"><canvas id="c2"></canvas></div>
+      </article>
+
+      <article class="card case">
+        <p class="case-no">03 · Segmentation · Confidence intervals</p>
+        <h3>Which users start a trial? Segmenting by survey answer</h3>
+        <dl class="qa">
+          <dt>Question</dt><dd>Do users with different goals behave differently?</dd>
+          <dt>Method</dt><dd>Joined the onboarding survey answer ("why are you learning?") to each user's later behaviour and compared engagement and trial rate per segment, with 95% confidence intervals (Wilson) because the groups are small.</dd>
+          <dt>Finding</dt><dd>People learning for travel had more sessions and the highest trial rate. The largest group, people learning for work, had the lowest. The intervals overlap, so this is a lead to follow, not a proven difference.</dd>
+          <dt>Action</dt><dd>Marketing copy and stories for travel learners are the next test; the segment view keeps running so the intervals narrow as data grows.</dd>
+        </dl>
+        <div id="c3" class="ci-chart" role="img" aria-label="Trial rate by learning goal with 95% confidence intervals, demo data"></div>
+      </article>
+
+      <article class="card case">
+        <p class="case-no">04 · Statistics · Anomaly detection</p>
+        <h3>A record day that wasn't</h3>
+        <dl class="qa">
+          <dt>Question</dt><dd>Why did new users jump to a record on one day, then fall straight back?</dd>
+          <dt>Method</dt><dd>Broke the day down by device model, country and app language. The spike came from one country, eleven languages and a device model that only simulators report.</dd>
+          <dt>Finding</dt><dd>Most of the "record" was my own automated screenshot runs for the App Store. With them removed, the series had no spike at all, just steady growth.</dd>
+          <dt>Action</dt><dd>Test traffic is now filtered out at the source and in the pipeline, and old figures were corrected rather than quoted.</dd>
+        </dl>
+        <div class="mini-chart"><canvas id="c4"></canvas></div>
+      </article>
+
+      <article class="card case wide">
+        <p class="case-no">05 · Experiment design · Power analysis</p>
+        <h3>Planning A/B tests on the paywall</h3>
+        <div class="grid g2">
+          <dl class="qa">
+            <dt>Question</dt><dd>Does a free trial lead to more paying users than no trial? Does a redesigned paywall convert better?</dd>
+            <dt>Method</dt><dd>Two experiments run at the same time on separate country groups, so no user is in both. Before starting, I calculated how many users each arm needs to detect a realistic lift.</dd>
+            <dt>Finding</dt><dd>At the app's current traffic, even a large lift needs months to reach significance. Results are read as directional, and neither test is generalised beyond its countries.</dd>
+            <dt>Action</dt><dd>Both tests run with a fixed end rule. Try the calculation yourself:</dd>
+          </dl>
+          <div class="calc">
+            <label>Baseline conversion (%) <input id="pBase" type="number" min="0.5" max="50" step="0.5" value="3"></label>
+            <label>Lift to detect, relative (%) <input id="pLift" type="number" min="5" max="200" step="5" value="50"></label>
+            <label>New users per week <input id="pWeek" type="number" min="50" max="100000" step="50" value="400"></label>
+            <label>Number of arms <select id="pArms"><option value="2" selected>2 (A/B)</option><option value="3">3</option></select></label>
+            <div class="calc-out" aria-live="polite">
+              <div><span class="big" id="nArm">–</span><span class="muted">users per arm</span></div>
+              <div><span class="big" id="nWeeks">–</span><span class="muted">weeks to finish</span></div>
+            </div>
+            <p class="muted small">Two-sided test, α = 0.05, power = 80%, equal split.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="card case">
+        <p class="case-no">06 · Event study · Lagged correlation</p>
+        <h3>Do social media posts bring downloads?</h3>
+        <dl class="qa">
+          <dt>Question</dt><dd>Does a TikTok or Instagram post increase downloads and trials in the next days?</dd>
+          <dt>Method</dt><dd>For each posting day: a baseline from the 14 days before that had no post, adjusted for weekday, against the 3 days after. Windows with a release or another post are flagged. Across days: Pearson correlation of posts with outcomes at 0 to 3 days' lag, detrended, with a permutation p-value.</dd>
+          <dt>Finding</dt><dd>There were too few logged posting days for a reliable answer, so the analysis says "not enough data" instead of showing a correlation that would mean nothing.</dd>
+          <dt>Action</dt><dd>Every post is now logged with its date and platform, and the test runs automatically once there are enough posting days.</dd>
+        </dl>
+        <div class="mini-chart"><canvas id="c6"></canvas></div>
+      </article>
+
+      <article class="card case">
+        <p class="case-no">07 · Search data · Segmentation</p>
+        <h3>German speakers weren't searching for English</h3>
+        <dl class="qa">
+          <dt>Question</dt><dd>The website gets search impressions but few clicks. Where is the untapped demand?</dd>
+          <dt>Method</dt><dd>Grouped Google Search Console queries by the searcher's language and the language they want to learn, and looked at the backlink profile.</dd>
+          <dt>Finding</dt><dd>German was the biggest market with almost no clicks, and German speakers were mostly searching for Portuguese, Japanese and Korean, not English. Nearly all backlinks came from one source, which caps rankings whatever the content.</dd>
+          <dt>Action</dt><dd>Built German landing pages for those language pairs and started link building instead of writing more blog posts.</dd>
+        </dl>
+        <div class="mini-chart"><canvas id="c7"></canvas></div>
+      </article>
+
+      <article class="card case">
+        <p class="case-no">08 · Event data · Root-cause analysis</p>
+        <h3>Event data exposed a feature that never worked</h3>
+        <dl class="qa">
+          <dt>Question</dt><dd>How often do people use the AI study plan, and what does it cost?</dd>
+          <dt>Method</dt><dd>Broke the feature's events down by outcome, then compared the app's events with the server's cost log.</dd>
+          <dt>Finding</dt><dd>Every single request from a real user ended in an error before it reached the server. The feature looked used in the app's counts but had never worked for anyone.</dd>
+          <dt>Action</dt><dd>Fixed the cause. A feature's success rate is now part of the daily checks, not just its usage.</dd>
+        </dl>
+        <table class="mini-table">
+          <thead><tr><th>Study-plan request outcome</th><th>Share</th></tr></thead>
+          <tbody><tr><td>Error on the device</td><td>all</td></tr><tr><td>Reached the server</td><td>none</td></tr><tr><td>Plan generated</td><td>none</td></tr></tbody>
+        </table>
+      </article>
+
+      <article class="card case">
+        <p class="case-no">09 · Data validation · Reconciliation</p>
+        <h3>The report said zero, and it was wrong</h3>
+        <dl class="qa">
+          <dt>Question</dt><dd>Why did the report show no paid subscriptions?</dd>
+          <dt>Method</dt><dd>Compared the pipeline's revenue with the payment provider's own charts, day by day, then traced the difference back to the code.</dd>
+          <dt>Finding</dt><dd>The report read a field the API does not return, so every payment counted as zero. Two goals had been met while the dashboard said they had not.</dd>
+          <dt>Action</dt><dd>Money figures now come from the provider's own charts and are reconciled every day. A missing field is reported as "not measured", never as zero.</dd>
+        </dl>
+      </article>
+
+    </div>
+  </section>
+
   <!-- 5. Data quality -->
-  <section>
+  <section id="quality">
     <h2>Data quality: one number from three sources</h2>
     <p class="sub">Downloads are counted by App Store Connect, RevenueCat and Google Analytics, and they never match exactly. The pipeline compares them every day and picks the most reliable figure for each day.</p>
     <div class="grid g2">
@@ -238,7 +453,7 @@
   </section>
 
   <!-- 6. Metric definition + SQL -->
-  <section>
+  <section id="sql">
     <h2>Metric definitions and SQL</h2>
     <p class="sub">Each KPI is defined once in a catalog, so the dashboard, the report and any ad-hoc query calculate it the same way.</p>
     <div class="grid g2">
@@ -277,25 +492,9 @@
     </div>
   </section>
 
-  <!-- 7. Insights -->
-  <section>
-    <h2>What the data changed</h2>
-    <p class="sub">Two findings that changed what I worked on.</p>
-    <div class="grid g2">
-      <div class="card insight">
-        <h3>Retention, not the paywall, limited sales</h3>
-        <p>My first idea was to redesign the paywall because few trials turned into paid subscriptions. The data said otherwise. The first session worked well, but most new users never came back after day 1, and users who returned on a second day started trials several times more often than one-day users. A paywall change moves how many trials start; retention moves how many people buy. So the next release focuses on bringing readers back on day 2, and the retention cohorts above measure whether it works.</p>
-      </div>
-      <div class="card insight">
-        <h3>The old report said zero when it wasn't</h3>
-        <p>When I compared the pipeline's revenue figures with the payment provider's own charts, they did not match. The old report read a field that the API does not return, so it showed no paid subscriptions while payments had come in. Since then every money figure is reconciled against the source's own charts, and a field that is missing is reported as "not measured", not as zero.</p>
-      </div>
-    </div>
-  </section>
-
   <footer>
     <p>Built and maintained by Cuma Ali Kesici for oqou, a language-learning app for iOS. All figures on this page are demo data generated in the browser.<br>
-    <a href="https://linkedin.com/in/cuma-ali-kesici-86161286/">LinkedIn</a></p>
+    <a href="https://linkedin.com/in/cuma-ali-kesici-86161286/">LinkedIn</a> · <a href="https://apps.apple.com/app/oqou/id6777945652?ct=portfolio">oqou on the App Store</a> · <a href="https://oqou.app">oqou.app</a></p>
   </footer>
 </div>
 
@@ -323,7 +522,7 @@
     const story = Math.round(onboard * (0.72 + rnd() * 0.1));
     const paywall = Math.round(story * (0.5 + rnd() * 0.12));
     const trials = Math.round(paywall * (0.1 + rnd() * 0.08));
-    const d1 = Math.round(downloads * (0.19 + i / DAYS * 0.05 + rnd() * 0.04));
+    const d1 = Math.round(downloads * (0.14 + i / DAYS * 0.05 + rnd() * 0.03));
     return { date: d, downloads, dau, sessions, onboard, story, paywall, trials, d1, post };
   });
 
@@ -448,11 +647,11 @@
       const q = 1 + (weeks - w) * 0.012;
       const wk = days.slice(startIdx, startIdx + 7);
       const d1 = 100 * wk.reduce((s, x) => s + x.d1, 0) / size;
-      const d7 = age >= 7 ? 100 * (0.09 + rnd() * 0.03) * q : null;
-      const d30 = age >= 30 ? 100 * (0.035 + rnd() * 0.015) * q : null;
+      const d7 = age >= 7 ? 100 * (0.07 + rnd() * 0.02) * q : null;
+      const d30 = age >= 30 ? 100 * (0.025 + rnd() * 0.01) * q : null;
       rows.push({ start, size, cells: [d1, d7, d30] });
     }
-    const max = [32, 14, 6];
+    const max = [26, 12, 5];
     const acc = css('--accent');
     const cell = (v, k) => {
       if (v == null) return '<td class="na">–</td>';
@@ -488,7 +687,158 @@
     });
   }
 
-  function renderAll() { kpis(); trendChart(); funnel(); heat(); reconChart(); }
+
+  // ---------- scoreboard (demo values; KPI list, phases and rules as in the real tool) ----------
+  const PHASES = [
+    { name: 'Phase 0', what: 'Instrumentation & stability', when: 'week 1' },
+    { name: 'Phase 1', what: 'Retention', when: 'week 3' },
+    { name: 'Phase 2', what: 'Offer & paywall', when: 'week 5' },
+    { name: 'Phase 3', what: 'Experiments', when: 'running' },
+  ];
+  const KPIS = [
+    { p: 0, label: 'Crash-free users', why: 'A crash on first run ends the relationship.', unit: '%', base: 88.0, target: 99.5, cur: 98.1, dir: 1 },
+    { p: 0, label: 'Users hitting an error', why: 'Automatable proxy for crash-free.', unit: '%', base: 9.0, target: 1.0, cur: 3.4, dir: -1 },
+    { p: 1, label: 'Read a story in session 1', why: 'Not measurable before Phase 0 added the event.', unit: '%', base: null, target: 60, cur: 71.0, dir: 1 },
+    { p: 1, label: 'Day-1 return rate', why: 'The KPI that gates everything below it.', unit: '%', base: 9.0, target: 25, cur: 19.2, dir: 1 },
+    { p: 1, label: 'Sessions per user', why: 'Habit formation inside a 3-day trial.', unit: '', base: 1.6, target: 4.0, cur: 2.3, dir: 1 },
+    { p: 1, label: 'Users who review a word', why: 'The feature meant to bring people back.', unit: '%', base: null, target: 30, cur: 7.5, dir: 1 },
+    { p: 1, label: 'Subscribers who reopen the app', why: 'Leading indicator for payment; no standard dashboard shows it.', unit: '%', base: 0, target: 70, cur: 38.0, dir: 1 },
+    { p: 2, label: 'Paywall to trial start', why: 'Moves with paywall copy and localisation.', unit: '%', base: 4.5, target: 10, cur: 5.0, dir: 1 },
+    { p: 2, label: 'Subscription to paid', why: 'Lags the return rate by weeks.', unit: '%', base: 0, target: 25, cur: 30.0, dir: 1 },
+    { p: 2, label: 'Subscriptions on a non-monthly plan', why: 'Plan mix drives lifetime value.', unit: '%', base: 0, target: 40, cur: 45.0, dir: 1 },
+  ];
+  function progressOf(k) {
+    if (k.base == null) return k.dir * (k.cur - k.target) >= 0 ? 1 : k.cur / k.target;
+    const p = (k.cur - k.base) / (k.target - k.base);
+    return Math.max(0, Math.min(1, p));
+  }
+  function statusOf(pr, k) {
+    if (pr >= 1) return ['hit', 'Hit'];
+    if (pr >= 0.5) return ['on-track', 'On track'];
+    if (pr >= 0.05) return ['moving', 'Moving'];
+    return ['flat', 'Flat'];
+  }
+  function scoreboard() {
+    document.getElementById('phases').innerHTML = PHASES.map((ph, i) =>
+      `<div class="phase ${i < 3 ? 'done' : ''}"><span class="when">${ph.name} · ${ph.when}</span><b>${ph.what}</b></div>`).join('');
+    const f = (v, u) => v == null ? '–' : (u === '%' ? v.toFixed(1) + '%' : v.toFixed(2));
+    let html = '<thead><tr><th>KPI</th><th>Baseline</th><th>Current</th><th>Target</th><th>Progress</th><th>Status</th></tr></thead><tbody>';
+    PHASES.slice(0, 3).forEach((ph, i) => {
+      html += `<tr class="grp"><td colspan="6">${ph.name} · ${ph.what}</td></tr>`;
+      KPIS.filter((k) => k.p === i).forEach((k) => {
+        const pr = progressOf(k); const [cls, txt] = statusOf(pr, k);
+        html += `<tr><td>${k.label}<span class="why">${k.why}</span></td><td class="num">${f(k.base, k.unit)}</td><td class="num"><b>${f(k.cur, k.unit)}</b></td><td class="num">${k.dir < 0 ? '≤ ' : ''}${f(k.target, k.unit)}</td>
+          <td><div class="prog" title="${Math.round(pr * 100)}%"><i style="width:${Math.round(pr * 100)}%"></i></div></td><td><span class="chip ${cls}">${txt}</span></td></tr>`;
+      });
+    });
+    document.getElementById('score').innerHTML = html + '</tbody>';
+  }
+  let kpiHist;
+  function kpiHistChart() {
+    const weeks = Array.from({ length: 10 }, (_, i) => 'Wk ' + (i + 1));
+    const vals = [9.0, 9.4, 11.8, 14.1, 15.0, 16.6, 17.2, 18.5, 18.1, 19.2];
+    if (kpiHist) kpiHist.destroy();
+    const o = chartOpts({ legend: true });
+    o.scales.y.max = 30; o.scales.y.ticks.callback = (v) => v + '%';
+    const shipLines = { id: 'ship', afterDatasetsDraw(c) {
+      const { ctx, chartArea: a, scales: { x } } = c; ctx.save(); ctx.setLineDash([2, 3]); ctx.strokeStyle = css('--muted'); ctx.fillStyle = css('--muted'); ctx.font = '11px ' + FONT;
+      [[0, 'P0'], [2, 'P1'], [4, 'P2']].forEach(([i, t]) => { const px = x.getPixelForValue(i); ctx.beginPath(); ctx.moveTo(px, a.top); ctx.lineTo(px, a.bottom); ctx.stroke(); ctx.fillText(t, px + 3, a.top + 10); });
+      ctx.restore(); } };
+    kpiHist = new Chart(document.getElementById('kpiHist'), {
+      type: 'line',
+      data: { labels: weeks, datasets: [
+        { label: 'Day-1 return rate', data: vals, borderColor: css('--accent'), backgroundColor: css('--accent'), borderWidth: 2, pointRadius: 3, tension: .25 },
+        { label: 'Target', data: weeks.map(() => 25), borderColor: css('--green'), borderDash: [6, 4], borderWidth: 1.5, pointRadius: 0 },
+        { label: 'Baseline', data: weeks.map(() => 9), borderColor: css('--grey'), borderDash: [6, 4], borderWidth: 1.5, pointRadius: 0 },
+      ] },
+      options: o, plugins: [shipLines],
+    });
+  }
+
+  // ---------- analysis case charts (demo data) ----------
+  const caseCharts = [];
+  function simpleOpts({ legend = false, horizontal = false, pctAxis = false, max } = {}) {
+    const o = chartOpts({ legend });
+    if (horizontal) { o.indexAxis = 'y'; o.interaction = { mode: 'nearest', intersect: true };
+      o.scales.x.grid = { color: css('--line') }; o.scales.y.grid = { display: false }; o.scales.x.beginAtZero = true; }
+    const valAxis = horizontal ? o.scales.x : o.scales.y;
+    if (pctAxis) valAxis.ticks.callback = (v) => v + '%';
+    if (max) valAxis.max = max;
+    return o;
+  }
+  function caseChartsRender() {
+    caseCharts.forEach((c) => c.destroy()); caseCharts.length = 0;
+    const A = css('--accent'), B = css('--blue'), G = css('--grey');
+    // 01 returners vs one-day users
+    caseCharts.push(new Chart(document.getElementById('c1'), { type: 'bar',
+      data: { labels: ['Used the app on one day', 'Came back on a later day'], datasets: [{ label: 'Started a trial', data: [1.4, 8.6], backgroundColor: [G, A], borderRadius: 4 }] },
+      options: Object.assign(simpleOpts({ pctAxis: true, max: 10 }), { plugins: { legend: { display: false }, title: { display: true, text: 'Trial start rate by return behaviour (demo)', color: css('--muted'), font: { family: FONT, weight: 'normal' } } } }) }));
+    // 02 notification path
+    caseCharts.push(new Chart(document.getElementById('c2'), { type: 'bar',
+      data: { labels: ['Granted permission', 'Qualified for a reminder', 'Opened a notification'], datasets: [{ data: [79, 31, 6], backgroundColor: [B, A, A], borderRadius: 4 }] },
+      options: Object.assign(simpleOpts({ horizontal: true, pctAxis: true, max: 100 }), { plugins: { legend: { display: false }, title: { display: true, text: 'Share of new users (demo)', color: css('--muted'), font: { family: FONT, weight: 'normal' } } } }) }));
+    // 04 anomaly raw vs cleaned
+    const raw = [5, 6, 5, 7, 6, 7, 8, 7, 41, 8, 9, 8, 10, 9, 11, 10, 12, 11, 13, 12, 14];
+    const clean = raw.map((v, i) => i === 8 ? 8 : v);
+    caseCharts.push(new Chart(document.getElementById('c4'), { type: 'line',
+      data: { labels: raw.map((_, i) => 'D' + (i + 1)), datasets: [
+        { label: 'Reported new users', data: raw, borderColor: G, borderDash: [4, 3], borderWidth: 1.5, pointRadius: 0, tension: .2 },
+        { label: 'Test traffic removed', data: clean, borderColor: A, borderWidth: 2, pointRadius: 0, tension: .2 } ] },
+      options: simpleOpts({ legend: true }) }));
+    // 06 event study window
+    const days = Array.from({ length: 18 }, (_, i) => i - 14);
+    const obs = [18, 21, 17, 16, 19, 22, 24, 18, 20, 17, 19, 21, 23, 19, 23, 21, 20, 22];
+    const base = days.map((d) => d >= 0 ? 19.4 : null);
+    caseCharts.push(new Chart(document.getElementById('c6'), { type: 'line',
+      data: { labels: days.map((d) => d === 0 ? 'Post' : (d > 0 ? '+' + d : d)), datasets: [
+        { label: 'New users', data: obs, borderColor: B, borderWidth: 2, pointRadius: (c) => c.dataIndex >= 14 ? 3 : 0, tension: .2 },
+        { label: 'Weekday-adjusted baseline', data: base, borderColor: A, borderDash: [6, 4], borderWidth: 2, pointRadius: 0 } ] },
+      options: simpleOpts({ legend: true }) }));
+    // 07 search segmentation
+    caseCharts.push(new Chart(document.getElementById('c7'), { type: 'bar',
+      data: { labels: ['Portuguese', 'Japanese', 'Korean', 'Spanish', 'Chinese', 'English'], datasets: [{ data: [130, 80, 65, 55, 25, 12], backgroundColor: A, borderRadius: 4 }] },
+      options: Object.assign(simpleOpts({ horizontal: true }), { plugins: { legend: { display: false }, title: { display: true, text: 'German-language search impressions by language people want to learn (demo)', color: css('--muted'), font: { family: FONT, weight: 'normal' } } } }) }));
+    ciChart();
+  }
+
+  // 03 confidence-interval chart (Wilson score interval)
+  function wilson(k, n, z = 1.96) {
+    const p = k / n, d = 1 + z * z / n, c = (p + z * z / (2 * n)) / d, h = z * Math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / d;
+    return [p, Math.max(0, c - h), c + h];
+  }
+  function ciChart() {
+    const segs = [['Travel', 9, 120], ['Moving abroad', 4, 95], ['Pleasure', 5, 130], ['Work', 7, 270]];
+    const W = 360, rowH = 34, top = 26, left = 98, right = 82, H = top + segs.length * rowH + 26, max = 0.16;
+    const x = (v) => left + (W - left - right) * v / max;
+    let svg = `<svg viewBox="0 0 ${W} ${H}">`;
+    svg += `<text x="0" y="14" font-size="12" class="muted">Trial rate with 95% CI, demo data</text>`;
+    [0, .04, .08, .12, .16].forEach((t) => { svg += `<line x1="${x(t)}" x2="${x(t)}" y1="${top}" y2="${H - 22}" stroke="${css('--line')}"/><text x="${x(t)}" y="${H - 6}" font-size="11" class="muted" text-anchor="middle">${Math.round(t * 100)}%</text>`; });
+    segs.forEach(([name, k, n], i) => {
+      const [p, lo, hi] = wilson(k, n), y = top + i * rowH + rowH / 2;
+      svg += `<text x="0" y="${y + 4}" font-size="13">${name}</text>`;
+      svg += `<line x1="${x(lo)}" x2="${x(hi)}" y1="${y}" y2="${y}" stroke="${css('--accent')}" stroke-width="2"/>`;
+      svg += `<line x1="${x(lo)}" x2="${x(lo)}" y1="${y - 5}" y2="${y + 5}" stroke="${css('--accent')}" stroke-width="2"/><line x1="${x(hi)}" x2="${x(hi)}" y1="${y - 5}" y2="${y + 5}" stroke="${css('--accent')}" stroke-width="2"/>`;
+      svg += `<circle cx="${x(p)}" cy="${y}" r="5" fill="${css('--accent')}"/>`;
+      svg += `<text x="${W - right + 8}" y="${y + 4}" font-size="11.5" class="muted">${k}/${n} users</text>`;
+    });
+    document.getElementById('c3').innerHTML = svg + '</svg>';
+  }
+
+  // 05 sample-size calculator (two proportions, two-sided α = .05, power = .8)
+  function calc() {
+    const p1 = +document.getElementById('pBase').value / 100;
+    const p2 = p1 * (1 + +document.getElementById('pLift').value / 100);
+    const week = +document.getElementById('pWeek').value, arms = +document.getElementById('pArms').value;
+    const out = (a, b) => { document.getElementById('nArm').textContent = a; document.getElementById('nWeeks').textContent = b; };
+    if (!(p1 > 0 && p2 < 1 && p2 > p1 && week > 0)) return out('–', '–');
+    const za = 1.959964, zb = 0.841621, pb = (p1 + p2) / 2;
+    const n = Math.ceil(Math.pow(za * Math.sqrt(2 * pb * (1 - pb)) + zb * Math.sqrt(p1 * (1 - p1) + p2 * (1 - p2)), 2) / Math.pow(p2 - p1, 2));
+    out(n.toLocaleString('en'), (n * arms / week).toFixed(1));
+  }
+  ['pBase', 'pLift', 'pWeek', 'pArms'].forEach((id) => document.getElementById(id).addEventListener('input', calc));
+  calc();
+
+  function renderAll() { kpis(); trendChart(); funnel(); heat(); reconChart(); scoreboard(); kpiHistChart(); caseChartsRender(); }
 
   document.querySelectorAll('.seg button').forEach((b) => b.addEventListener('click', () => {
     range = +b.dataset.range;
